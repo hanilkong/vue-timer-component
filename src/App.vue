@@ -12,7 +12,7 @@ import Timer from "./components/Timer.vue";
     </a>
   </div>
   <Timer :time="3" />
-  <Timer :time="6" />
+  <Timer :time="70" />
   <Timer :time="9" />
 </template>
 
