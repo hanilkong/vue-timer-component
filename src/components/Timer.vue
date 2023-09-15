@@ -21,9 +21,7 @@ function onResetClickHandle() {
 }
 
 function onStopClickHandle() {
-  cancelAnimationFrame(interval);
-  end = null;
-  isRunning.value = false;
+  stop();
 }
 
 function onPlayClickHandle() {
@@ -48,9 +46,15 @@ function start() {
   setTime(currentTime);
   interval = requestAnimationFrame(() => start());
   if (currentTime === 0) {
-    cancelAnimationFrame(interval);
+    stop();
   }
   return;
+}
+
+function stop() {
+  cancelAnimationFrame(interval);
+  end = null;
+  isRunning.value = false;
 }
 </script>
 <template>
@@ -59,9 +63,16 @@ function start() {
       <p class="font-weight-black">{{ timer }}</p>
     </div>
     <div class="d-flex flex-row gap justify-center">
-      <v-btn v-if="!isRunning" @click="onPlayClickHandle" end> play </v-btn>
-      <v-btn v-else @click="onStopClickHandle" end> stop </v-btn>
-      <v-btn @click="onResetClickHandle" end> reset </v-btn>
+      <v-btn v-if="!isRunning && currentTime > 0" @click="onPlayClickHandle">
+        play
+      </v-btn>
+      <v-btn
+        v-else-if="isRunning && currentTime > 0"
+        @click="onStopClickHandle"
+      >
+        stop
+      </v-btn>
+      <v-btn @click="onResetClickHandle"> reset </v-btn>
     </div>
   </div>
 </template>
